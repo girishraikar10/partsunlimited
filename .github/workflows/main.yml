@@ -10,12 +10,6 @@ on:
   pull_request:
     branches: [ master ]
 
-  workflow_dispatch:
-env:
-  SLN_FILE: PartsUnlimited.sln
-  PACKAGE_TEMP_PATH:
-Content\D_C\a\PartsUnlimited\PartsUnlimited\src\PartsUnlimitedWebsite\obj\Release\Package\PackageTmp
-
 jobs:
   # This workflow contains a single job called "build"
   build:
@@ -32,11 +26,15 @@ jobs:
         uses: NuGet/setup-nuget@v1.0.5
       - name: setup-msbuild
         uses: microsoft/setup-msbuild@v1
-      - name: BuildApp
-        run: |
-         msbuild ${{env.SLN_FILE}}'/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="${{github.workspace}}\stagingdir"'
       - name: NuGet restore
         run: nuget restore
+    
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: drop
+          path: partsunlimited/PartsUnlimited-aspnet45/src/PartsUnlimitedWebsite/
+
  
       
 
