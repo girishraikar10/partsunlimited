@@ -11,8 +11,7 @@ on:
     branches: [ master ]
 
   workflow_dispatch:
-env:
-  SLN_FILE: PartsUnlimited.sln
+
 
  
 
@@ -35,9 +34,6 @@ jobs:
         uses: microsoft/setup-msbuild@v1
       - name: NuGet restore
         run: nuget restore
-      - name: BuildApp
-        run: |
-          msbuild ${{env.SLN_FILE}} /p:TransformWebConfigEnabled=False /p:AutoParameterizationWebConfigConnectionStrings=False /p:Configuration=Release /p:Platform='Any CPU' /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true 
  
       
 
